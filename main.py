@@ -9,7 +9,11 @@ page, max_page = 1, 20
 url = f'https://www.banki.ru/services/questions-answers/?id={bank_id}&p={page}'
 r = requests.get(url)  # подключаюсь по указанному урлу
 result = pd.DataFrame()  # создаю таблицу
-soup = BeautifulSoup(r.text)  # это сам парсер
+soup = BeautifulSoup(r.text, features='html.parser')  # это сам парсер
+tables = soup.find_all('table', {'class': 'qaBlock'})
+
+for item in tables:
+    res = parse_table(item)  # я вызываю функцию парсинга для каждой таблицы с сайта
 
 
 # .find('table') - ищет первое вхождение элемента в тексте
@@ -18,9 +22,7 @@ soup = BeautifulSoup(r.text)  # это сам парсер
 # find('table').get('href') - вернет ссылки
 
 
-
-
 #with open('test.html', 'w') as f:
     # открываю файл test.html в режиме записи (write)
-#    f.write(res.text)  # И записываю в него ответ от сайта
+#    f.write(r.text)  # И записываю в него ответ от сайта
 
