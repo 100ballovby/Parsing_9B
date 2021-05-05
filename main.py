@@ -12,9 +12,12 @@ result = pd.DataFrame()  # создаю таблицу
 soup = BeautifulSoup(r.text, features='html.parser')  # это сам парсер
 tables = soup.find_all('table', {'class': 'qaBlock'})
 
+
 for item in tables:
     res = parse_table(item)  # я вызываю функцию парсинга для каждой таблицы с сайта
+    result = result.append(res, ignore_index=True)
 
+result.to_excel('result.xlsx')
 
 # .find('table') - ищет первое вхождение элемента в тексте
 # .find_all('table') - ищет ВСЕ вхождения элемента в тексте
